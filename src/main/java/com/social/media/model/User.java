@@ -1,24 +1,35 @@
 package com.social.media.model;
 
-import java.nio.channels.UnresolvedAddressException;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.GenerationType;
+
+
+@Entity
+@Table(name = "users")
 public class User {
 
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
     String username;
+    String firstName;
+    String secondName;
     String password;
-    String firstname;
-    String lastname;
     String birthday;
     String email;
 
-    public User(){}
-    public User(int id, String username, String firstname, String lastname, String password ,String birthday, String email) {
+    public User() {
+    }
+
+    public User(int id, String username, String firstName, String secondName, String password, String birthday, String email) {
         this.id = id;
         this.username = username;
-        this.firstname = firstname;
-        this.lastname = lastname;
+        this.firstName = firstName;
+        this.secondName = secondName;
         this.birthday = birthday;
         this.email = email;
         this.password = password;
@@ -33,20 +44,20 @@ public class User {
         this.username = username;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstname) {
+        this.firstName = firstname;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getSecondName() {
+        return secondName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setSecondName(String lastname) {
+        this.secondName = lastname;
     }
 
     public String getBirthday() {
@@ -84,10 +95,10 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id='" + id +'\'' +
+                "id='" + id + '\'' +
                 ", username='" + username + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
+                ", firstname='" + firstName + '\'' +
+                ", lastname='" + secondName + '\'' +
                 ", birthday='" + birthday + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +

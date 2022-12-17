@@ -22,8 +22,8 @@ public class FriendshipService {
             User user = new User();
             user.setId(resultSet.getInt("user2"));
             user.setUsername(resultSet.getString("username"));
-            user.setFirstname(resultSet.getString("firstName"));
-            user.setLastname(resultSet.getString("secondName"));
+            user.setFirstName(resultSet.getString("firstName"));
+            user.setSecondName(resultSet.getString("secondName"));
             user.setBirthday(resultSet.getString("birthday"));
             user.setEmail(resultSet.getString("email"));
 

@@ -2,6 +2,8 @@ package com.social.media.service;
 
 import com.social.media.crud.UserCrud;
 import com.social.media.model.User;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -37,6 +39,14 @@ public class UserService {
             id = resultSet.getInt("id");
         }
         return id;
+    }
+
+    public int getUserId(EntityManager em, String username) {
+        User user = new User();
+        Query q = em.createNativeQuery("select user.id from User user where user.username = :username");
+        q.setParameter("username",username );
+        user = (User) q.getSingleResult();
+        return user.getId();
     }
 
     public User login(Connection connection, String username, String password) throws SQLException {

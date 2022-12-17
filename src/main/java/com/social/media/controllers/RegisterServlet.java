@@ -47,8 +47,8 @@ public class RegisterServlet implements Servlet {
                     User user = new User();
 
                     user.setUsername( request.getParameter("username") );
-                    user.setFirstname(request.getParameter("firstname"));
-                    user.setLastname(request.getParameter("lastname"));
+                    user.setFirstName(request.getParameter("firstname"));
+                    user.setSecondName(request.getParameter("lastname"));
                     user.setPassword(request.getParameter("password"));
                     user.setBirthday(request.getParameter("birthday"));
                     user.setEmail(request.getParameter("email"));

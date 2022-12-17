@@ -14,8 +14,8 @@ public class UserCrud implements Crud<User, Integer> {
 
         PreparedStatement preparedStatement = connection.prepareStatement("insert into users( firstName, secondName, birthday,username,email,password) values (?,?,?,?,?,?);");
 
-        preparedStatement.setString(1, user.getFirstname());
-        preparedStatement.setString(2, user.getLastname());
+        preparedStatement.setString(1, user.getFirstName());
+        preparedStatement.setString(2, user.getSecondName());
         preparedStatement.setString(3, user.getBirthday());
         preparedStatement.setString(4, user.getUsername());
         preparedStatement.setString(5, user.getEmail());
@@ -48,8 +48,8 @@ public class UserCrud implements Crud<User, Integer> {
 
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
-            user.setFirstname(resultSet.getString("firstName"));
-            user.setLastname(resultSet.getString("secondName"));
+            user.setFirstName(resultSet.getString("firstName"));
+            user.setSecondName(resultSet.getString("secondName"));
             user.setBirthday(resultSet.getString("birthday"));
             user.setUsername(resultSet.getString("username"));
             user.setEmail(resultSet.getString("email"));
@@ -74,8 +74,8 @@ public class UserCrud implements Crud<User, Integer> {
 
 
         preparedStatement.setString(1, user.getUsername());
-        preparedStatement.setString(2, user.getFirstname());
-        preparedStatement.setString(3, user.getLastname());
+        preparedStatement.setString(2, user.getFirstName());
+        preparedStatement.setString(3, user.getSecondName());
         preparedStatement.setString(4, user.getBirthday());
         preparedStatement.setString(5, user.getEmail());
         preparedStatement.setString(6, user.getPassword());
