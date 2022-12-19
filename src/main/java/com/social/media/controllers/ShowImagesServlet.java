@@ -8,8 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -24,7 +22,7 @@ public class ShowImagesServlet extends HttpServlet {
             connection = ConnectionHelper.openConnection();
             Image image = postService.getImage(connection, Integer.parseInt(req.getParameter("id")));
             resp.setContentType("image/jpeg");
-            resp.getOutputStream().write(image.getInputStream().readAllBytes());
+            resp.getOutputStream().write(image.getImg().getBinaryStream().readAllBytes());
             resp.getOutputStream().flush();
         } catch (SQLException e) {
             throw new RuntimeException(e);

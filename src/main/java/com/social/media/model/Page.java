@@ -1,21 +1,32 @@
 package com.social.media.model;
 
 
-import java.sql.Timestamp;
-import java.util.Date;
+import jakarta.persistence.*;
 
+import java.sql.Timestamp;
+import java.util.*;
+
+@Entity
 public class Page {
+    @Id
     int id;
+    @Column(name = "name")
     String pageName;
+    @Column(name = "create_date")
     Timestamp createPageDate;
-    int adminUser;
+    @ManyToMany
+    @JoinTable(name = "page_admin", joinColumns = {@JoinColumn(name = "page_id")}, inverseJoinColumns = {@JoinColumn(name = "user_id")})
+    Set<User> adminUsers = new HashSet<>();
+    @OneToMany(mappedBy = "page")
+    List<Post> posts = new ArrayList<>();
 
     public Page(int id, String pageName) {
         this.id = id;
         this.pageName = pageName;
     }
 
-    public Page() {}
+    public Page() {
+    }
 
     public int getId() {
         return id;
@@ -42,12 +53,20 @@ public class Page {
         this.createPageDate = createPageDate;
     }
 
-    public int getAdminUser() {
-        return adminUser;
+    public Set<User> getAdminUsers() {
+        return adminUsers;
     }
 
-    public void setAdminUser(int adminUser) {
-        this.adminUser = adminUser;
+    public void setAdminUsers(Set<User> adminUsers) {
+        this.adminUsers = adminUsers;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 
     @Override

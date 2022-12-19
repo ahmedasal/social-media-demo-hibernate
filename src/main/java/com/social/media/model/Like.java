@@ -1,19 +1,24 @@
 package com.social.media.model;
 
+import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Table(name = "likes")
 public class Like {
+    @Id
     int id;
-    int userId;
+    @Column(name = "create_date")
     String createDate;
-    int postId;
-
+    @ManyToMany
+    @JoinColumn(name = "post_id")
+    Set<Post> posts = new HashSet<>();
+    @ManyToMany
+    @JoinColumn(name = "user")
+    Set<User> users = new HashSet<>();
     public Like() {
-    }
-
-    public Like(int userId, String createDate, int postId) {
-
-        this.userId = userId;
-        this.createDate = createDate;
-        this.postId = postId;
     }
 
     public int getId() {
@@ -24,14 +29,6 @@ public class Like {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public String getCreateDate() {
         return createDate;
     }
@@ -40,11 +37,19 @@ public class Like {
         this.createDate = createDate;
     }
 
-    public int getPostId() {
-        return postId;
+    public Set<Post> getPosts() {
+        return posts;
     }
 
-    public void setPostId(int postId) {
-        this.postId = postId;
+    public void setPosts(Set<Post> posts) {
+        this.posts = posts;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 }

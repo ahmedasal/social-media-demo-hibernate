@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class UserService {
 
@@ -41,12 +42,19 @@ public class UserService {
         return id;
     }
 
-    public int getUserId(EntityManager em, String username) {
-        User user = new User();
-        Query q = em.createNativeQuery("select user.id from User user where user.username = :username");
-        q.setParameter("username",username );
-        user = (User) q.getSingleResult();
-        return user.getId();
+    public User getUserByUsername(EntityManager em, String username) {
+        List resultList = em.createQuery("select u from User u where u.username = :username")
+                .setParameter("username",username )
+                .getResultList();
+
+        return resultList.size() > 0 ? (User)resultList.get(0) : null;
+    }
+    public Integer getUserId(EntityManager em, String username) {
+        List resultList = em.createNativeQuery("select id from users where username = :username")
+            .setParameter("username",username )
+                .getResultList();
+
+        return resultList.size() > 0 ? (Integer)resultList.get(0) : null;
     }
 
     public User login(Connection connection, String username, String password) throws SQLException {

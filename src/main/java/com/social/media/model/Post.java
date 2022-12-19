@@ -1,27 +1,53 @@
 package com.social.media.model;
 
-import java.sql.Connection;
+
+
+import jakarta.persistence.*;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
+import java.util.Set;
 
+
+@Entity
+@Table( name= "posts")
 public class Post {
-    int id;
-    String post;
-    Date postDate;
-    int postOwner;
-    int likesCount;
-    String username;
-    int commentsCount;
-    int pageId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private String post;
+    private Date postDate;
+    private int postOwner;
+    @Column(name = "likes_count")
+    private int likesCount;
+    @Column(name = "comments_count")
+    private int commentsCount;
+    @ManyToOne
+    @JoinColumn(name = "page_id")
+    private Page page;
+    @ManyToMany(mappedBy = "posts")
+    Set<Like> likes = new HashSet<>();
+    public Page getPage() {
+        return page;
+    }
 
+    public void setPage(Page page) {
+        this.page = page;
+    }
+
+    @Transient
+    String username;
+    @Transient
     boolean likedByMe;
 
+    // TODO Hibernate annotation
+    @OneToMany(mappedBy = "post")
     List<Comment> comments;
-    List<Integer> images;
+    @OneToMany(mappedBy = "post")
+    List<Image> images;
 
     public Post() {
 
@@ -36,7 +62,7 @@ public class Post {
 
     public static Post fromDatabase(ResultSet resultSet) throws SQLException {
         Post post = new Post();
-        post.setPageId(resultSet.getInt("page_id"));
+
         post.setId(resultSet.getInt("id"));
         post.setPostDate(resultSet.getDate("postDate"));
         post.setPostOwner(resultSet.getInt("postOwner"));
@@ -120,19 +146,13 @@ public class Post {
         this.username = username;
     }
 
-    public int getPageId() {
-        return pageId;
-    }
 
-    public void setPageId(int pageId) {
-        this.pageId = pageId;
-    }
 
-    public List<Integer> getImages() {
+    public List<Image> getImages() {
         return images;
     }
 
-    public void setImages(List<Integer> images) {
+    public void setImages(List<Image> images) {
         this.images = images;
     }
 
@@ -146,7 +166,6 @@ public class Post {
                 ", likesCount=" + likesCount +
                 ", username='" + username + '\'' +
                 ", commentsCount=" + commentsCount +
-                ", pageId=" + pageId +
                 ", likedByMe=" + likedByMe +
                 ", comments=" + comments +
                 '}';

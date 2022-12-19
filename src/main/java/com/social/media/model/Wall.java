@@ -1,5 +1,7 @@
 package com.social.media.model;
 
+import jakarta.persistence.Entity;
+
 import java.util.ArrayList;
 
 

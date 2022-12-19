@@ -1,12 +1,12 @@
 package com.social.media.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -21,6 +21,12 @@ public class User {
     String password;
     String birthday;
     String email;
+    @OneToMany(mappedBy = "user")
+    List<Comment> comments = new ArrayList<>();
+    @ManyToMany(mappedBy = "adminUsers")
+    Set<Page> pages =new HashSet<>();
+    @ManyToMany(mappedBy = "users")
+    Set<Like> likes = new HashSet<>();
 
     public User() {
     }

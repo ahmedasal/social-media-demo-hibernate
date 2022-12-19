@@ -89,8 +89,8 @@ public class PostService {
 
     public Image saveImage(Connection connection, Image img) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("insert into post_images (post_id, image) values(?,?)");
-        preparedStatement.setInt(1, img.getPostId());
-        preparedStatement.setBlob(2, img.getInputStream());
+        preparedStatement.setInt(1, img.getPost().getId());
+        preparedStatement.setBlob(2, img.getImg());
         preparedStatement.execute();
         return img;
     }
@@ -102,21 +102,23 @@ public class PostService {
         ResultSet rs = preparedStatement.executeQuery();
         if (rs.next()) {
             image.setId(imageId);
-            image.setPostId(rs.getInt("post_id"));
-            image.setInputStream(rs.getBlob("image").getBinaryStream());
+            image.getPost().setId(rs.getInt("post_id"));
+            image.setImg(rs.getBlob("image"));
         }
 
         return image;
     }
 
-    public List<Integer> getPostImagesIds(Connection connection, int postId) throws SQLException {
-        List<Integer> images = new LinkedList<>();
+    public List<Image> getPostImagesIds(Connection connection, int postId) throws SQLException {
+        List<Image> images = new LinkedList<>();
 
         PreparedStatement preparedStatement = connection.prepareStatement("select id from post_images where post_id = ?");
         preparedStatement.setInt(1, postId);
         ResultSet rs = preparedStatement.executeQuery();
         while (rs.next()) {
-           images.add(rs.getInt("id"));
+            Image image = new Image();
+            image.setId(rs.getInt("id"));
+           images.add(image);
         }
         return images;
     }

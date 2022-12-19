@@ -11,6 +11,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
@@ -19,7 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class PostRequestReader {
-    public static PostWithPhotos readPostRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public static PostWithPhotos readPostRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         PostWithPhotos postWithPhotos = new PostWithPhotos();
 
         User user = (User) request.getSession().getAttribute("currentUser");
@@ -56,7 +57,8 @@ public class PostRequestReader {
                    }
                 } else {
                         Image image = new Image();
-                        image.setInputStream(item.getInputStream());
+                        //TODO please review this eng mostafa.
+                        image.setImg(new SerialBlob(item.getInputStream().readAllBytes()));
                         postWithPhotos.images.add(image);
                 }
 

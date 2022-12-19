@@ -1,19 +1,22 @@
 package com.social.media.model;
 
-import java.io.InputStream;
+import jakarta.persistence.*;
 
+import java.sql.Blob;
+import java.sql.SQLException;
+
+@Entity
 public class Image {
-    int postId;
+    @Id
     int id;
-    InputStream inputStream;
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    Post post;
+    @Lob
+    @Column(name = "image")
+    Blob img;
 
-    public int getPostId() {
-        return postId;
-    }
 
-    public void setPostId(int postId) {
-        this.postId = postId;
-    }
 
     public int getId() {
         return id;
@@ -23,11 +26,19 @@ public class Image {
         this.id = id;
     }
 
-    public InputStream getInputStream() {
-        return inputStream;
+    public Post getPost() {
+        return post;
     }
 
-    public void setInputStream(InputStream inputStream) {
-        this.inputStream = inputStream;
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
+    public Blob getImg() throws SQLException {
+        return img;
+    }
+
+    public void setImg(Blob img) {
+        this.img = img;
     }
 }

@@ -1,28 +1,39 @@
 package com.social.media.model;
 
-public class Comment {
-    int id;
-    int postId;
-    String commentText;
-    User user;
+import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+@Entity
+public class Comment {
+    @Id
+    int id;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    Post post;
+    @Column(name = "comment_text")
+    String commentText;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    User user;
+    @Transient
     String username;
-    Integer parentCommentId;
-    String createdDate;
-    String updatedDate;
+    //TODO self-Referencing
+    @ManyToOne
+    @JoinColumn(name = "comment_parent_id")
+    Comment parentComment;
+    @OneToMany(mappedBy = "parentComment")
+    List<Comment> comments = new ArrayList<>();
+    @Column(name = "create_date")
+    Date createdDate;
+    @Column(name = "update_date")
+    Date updatedDate;
 
     public Comment() {
     }
-
-    public Comment(String commentText, int postId, User user, Integer parentCommentId, String createdDate, String updatedDate) {
-        this.commentText = commentText;
-        this.user = user;
-        this.postId = postId;
-        this.parentCommentId = parentCommentId;
-        this.createdDate = createdDate;
-        this.updatedDate = updatedDate;
-    }
-
 
     public int getId() {
         return id;
@@ -30,6 +41,14 @@ public class Comment {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     public String getCommentText() {
@@ -48,38 +67,6 @@ public class Comment {
         this.user = user;
     }
 
-    public Integer getParentCommentId() {
-        return parentCommentId;
-    }
-
-    public void setParentCommentId(Integer parentCommentId) {
-        this.parentCommentId = parentCommentId;
-    }
-
-    public String getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(String createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(String updatedDate) {
-        this.updatedDate = updatedDate;
-    }
-
-    public int getPostId() {
-        return postId;
-    }
-
-    public void setPostId(int postId) {
-        this.postId = postId;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -88,15 +75,50 @@ public class Comment {
         this.username = username;
     }
 
+    public Comment getParentComment() {
+        return parentComment;
+    }
+
+    public void setParentComment(Comment parentComment) {
+        this.parentComment = parentComment;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Date getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Date updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +
                 "id=" + id +
+                ", post=" + post +
                 ", commentText='" + commentText + '\'' +
-                ", userId=" + user.getId() +
-                ", parentCommentId=" + parentCommentId +
-                ", createdDate='" + createdDate + '\'' +
-                ", updatedDate='" + updatedDate + '\'' +
+                ", user=" + user +
+                ", username='" + username + '\'' +
+                ", parentComment=" + parentComment +
+                ", comments=" + comments +
+                ", createdDate=" + createdDate +
+                ", updatedDate=" + updatedDate +
                 '}';
     }
 }

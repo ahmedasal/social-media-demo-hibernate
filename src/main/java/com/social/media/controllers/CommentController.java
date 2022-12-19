@@ -11,11 +11,7 @@ public class CommentController {
     public static void main(String[] args) {
         EntityManager em = EntityManagerFactoryUtility.createEntityManger();
         UserService userService = new UserService();
-
-
-        System.out.println(userService.getUserId(em,"ahmedasal1"));
-
-
+        System.out.println(userService.getUserByUsername(em,"ahmedasal1"));
     }
 
 
