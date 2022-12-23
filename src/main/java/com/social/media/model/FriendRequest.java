@@ -1,23 +1,28 @@
 package com.social.media.model;
 
+import jakarta.persistence.*;
+
+import java.util.Date;
+
+@Entity
+@Table(name = "friendship_request")
 public class FriendRequest {
+    @Id
     int id;
-    int senderUser;
-    int ReceiverUser;
-    String CreateDate;
+    @ManyToOne
+    @JoinColumn(name = "user1")
+    User senderUser;
+    @ManyToOne
+    @JoinColumn(name = "user2")
+    User ReceiverUser;
+    @Column(name = "create_date")
+    Date CreateDate;
     String comfirmStatus;
-    String comfirmDate;
+    @Column(name = "confirm_date")
+    Date comfirmDate;
 
     public FriendRequest() {
         }
-
-    public FriendRequest(int senderUser, int receiverUser, String createDate, String comfirmStatus, String comfirmDate) {
-        this.senderUser = senderUser;
-        ReceiverUser = receiverUser;
-        CreateDate = createDate;
-        this.comfirmStatus = comfirmStatus;
-        this.comfirmDate = comfirmDate;
-    }
 
     public int getId() {
         return id;
@@ -27,27 +32,27 @@ public class FriendRequest {
         this.id = id;
     }
 
-    public int getSenderUser() {
+    public User getSenderUser() {
         return senderUser;
     }
 
-    public void setSenderUser(int senderUser) {
+    public void setSenderUser(User senderUser) {
         this.senderUser = senderUser;
     }
 
-    public int getReceiverUser() {
+    public User getReceiverUser() {
         return ReceiverUser;
     }
 
-    public void setReceiverUser(int receiverUser) {
+    public void setReceiverUser(User receiverUser) {
         ReceiverUser = receiverUser;
     }
 
-    public String getCreateDate() {
+    public Date getCreateDate() {
         return CreateDate;
     }
 
-    public void setCreateDate(String createDate) {
+    public void setCreateDate(Date createDate) {
         CreateDate = createDate;
     }
 
@@ -59,23 +64,11 @@ public class FriendRequest {
         this.comfirmStatus = comfirmStatus;
     }
 
-    public String getComfirmDate() {
+    public Date getComfirmDate() {
         return comfirmDate;
     }
 
-    public void setComfirmDate(String comfirmDate) {
+    public void setComfirmDate(Date comfirmDate) {
         this.comfirmDate = comfirmDate;
-    }
-
-    @Override
-    public String toString() {
-        return "FriendRequest{" +
-                "id=" + id +
-                ", senderUser=" + senderUser +
-                ", ReceiverUser=" + ReceiverUser +
-                ", CreateDate='" + CreateDate + '\'' +
-                ", comfirmStatus='" + comfirmStatus + '\'' +
-                ", comfirmDate='" + comfirmDate + '\'' +
-                '}';
     }
 }

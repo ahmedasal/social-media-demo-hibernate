@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 @Entity
+@Table(name = "pages")
 public class Page {
     @Id
     int id;
@@ -24,6 +25,27 @@ public class Page {
         this.id = id;
         this.pageName = pageName;
     }
+
+    public void addPost(Post post){
+        this.posts.add(post);
+        post.setPage(this);
+    }
+
+    //TODO is this method is correct here I try to delete post from post list
+    public void removePost(Post post){
+        this.posts.remove(post);
+    }
+
+
+    public void addUser(User user){
+        this.adminUsers.add(user);
+        user.getPages().add(this);
+    }
+    public void removeUser(User user){
+        this.adminUsers.remove(user);
+        user.getPages().remove(this);
+    }
+
 
     public Page() {
     }

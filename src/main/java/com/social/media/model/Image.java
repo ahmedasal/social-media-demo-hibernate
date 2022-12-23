@@ -6,12 +6,14 @@ import java.sql.Blob;
 import java.sql.SQLException;
 
 @Entity
+@Table(name = "post_images")
 public class Image {
     @Id
     int id;
     @ManyToOne
     @JoinColumn(name = "post_id")
     Post post;
+    // TODO is this best practice
     @Lob
     @Column(name = "image")
     Blob img;

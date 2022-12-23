@@ -3,7 +3,9 @@ package com.social.media.controllers;
 import com.social.media.model.User;
 import com.social.media.service.UserService;
 import com.social.media.util.ConnectionHelper;
+import com.social.media.util.EntityManagerFactoryUtility;
 import com.social.media.util.UnsupportedMethodException;
+import jakarta.persistence.EntityManager;
 
 
 import javax.servlet.*;
@@ -24,7 +26,6 @@ public class RegisterServlet implements Servlet {
     public void init(ServletConfig servletConfig) throws ServletException {
         this.servletConfig = servletConfig;
     }
-
     @Override
     public ServletConfig getServletConfig() {
         return servletConfig;
@@ -34,7 +35,7 @@ public class RegisterServlet implements Servlet {
     public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        Connection connection = null;
+        EntityManager em = null;
 
         try {
             switch (request.getMethod()) {
@@ -53,8 +54,8 @@ public class RegisterServlet implements Servlet {
                     user.setBirthday(request.getParameter("birthday"));
                     user.setEmail(request.getParameter("email"));
 
-                    connection = ConnectionHelper.openConnection();
-                    user = userService.register(connection, user);
+                    em = EntityManagerFactoryUtility.createEntityManger();
+                    user = userService.register(em, user);
 
                     response.getWriter().println("You are welcome, your id is " +user.getId());
                     break;
@@ -65,10 +66,10 @@ public class RegisterServlet implements Servlet {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(ex.getMessage());
         }finally {
-            if(connection != null) {
+            if(em != null) {
                 try {
-                    connection.close();
-                } catch (SQLException e) {
+                    em.close();
+                } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
             }

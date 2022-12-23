@@ -21,14 +21,23 @@ public class User {
     String password;
     String birthday;
     String email;
+    @OneToMany
+    List<Post> posts = new ArrayList<>();
     @OneToMany(mappedBy = "user")
     List<Comment> comments = new ArrayList<>();
     @ManyToMany(mappedBy = "adminUsers")
     Set<Page> pages =new HashSet<>();
-    @ManyToMany(mappedBy = "users")
-    Set<Like> likes = new HashSet<>();
+    @OneToMany(mappedBy = "user")
+    Set<Like> likes;
 
     public User() {
+    }
+    public void addComment(Comment comment){
+        this.comments.add(comment);
+        comment.setUser(this);
+    }
+    public void removeComment(Comment comment){
+        this.comments.remove(comment);
     }
 
     public User(int id, String username, String firstName, String secondName, String password, String birthday, String email) {
@@ -98,16 +107,44 @@ public class User {
         this.password = password;
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public Set<Page> getPages() {
+        return pages;
+    }
+
+    public void setPages(Set<Page> pages) {
+        this.pages = pages;
+    }
+
+    public Set<Like> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Set<Like> likes) {
+        this.likes = likes;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", username='" + username + '\'' +
-                ", firstname='" + firstName + '\'' +
-                ", lastname='" + secondName + '\'' +
-                ", birthday='" + birthday + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", secondName='" + secondName + '\'' +
                 ", password='" + password + '\'' +
+                ", birthday='" + birthday + '\'' +
                 ", email='" + email + '\'' +
+
+
+
+
                 '}';
     }
 }

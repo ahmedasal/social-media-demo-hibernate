@@ -1,22 +1,23 @@
 package com.social.media.controllers;
 
-import com.social.media.crud.UserCrud;
+
 import com.social.media.model.User;
-import com.social.media.service.UserService;
-import com.social.media.util.ConnectionHelper;
+
+import com.social.media.util.EntityManagerFactoryUtility;
 import com.social.media.util.UnsupportedMethodException;
+import jakarta.persistence.EntityManager;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
+
 
 import static com.social.media.util.WebUtil.GET;
 
 public class HomeServlet implements Servlet {
 
-    UserCrud userCrud = new UserCrud();
+
     ServletConfig servletConfig;
 
     @Override
@@ -31,16 +32,18 @@ public class HomeServlet implements Servlet {
 
     @Override
     public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
-
+        EntityManager em = null;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         User user = null;
         try {
-            Connection connection = ConnectionHelper.openConnection();
+            em = EntityManagerFactoryUtility.createEntityManger();
+            em.getTransaction().begin();
             String id = request.getParameter("id");
             if(id != null) {
-               user = userCrud.get(connection, Integer.parseInt(id));
+               user = em.find(User.class, Integer.parseInt(id));
                request.setAttribute("user", user);
+               em.getTransaction().commit();
             }
         }catch (Exception e) {
             e.printStackTrace();

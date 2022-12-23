@@ -1,4 +1,4 @@
-package com.social.media.controllers;
-
-public class FriendshipController {
-}
+//package com.social.media.controllers;
+//
+//public class FriendshipController {
+//}

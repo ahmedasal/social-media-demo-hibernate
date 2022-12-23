@@ -450,237 +450,234 @@
                         </form>
 
                     </div>
-                            <c:if test="${post.id eq pId}" >
-                                <c:out value="${upload}"></c:out>
-                            </c:if>
+                    <c:if test="${post.id eq pId}" >
+                        <c:out value="${upload}"></c:out>
+                    </c:if>
 
-                            <%--                                <div class="input-group-append">--%>
-                            <%--                                    <div class="input-group-text">--%>
-                            <%--                                        <i class="fas fa-camera"></i>--%>
-                            <%--                                    </div>--%>
-                    </div>
-
-
-                    </form>
+                    <%--                                <div class="input-group-append">--%>
+                    <%--                                    <div class="input-group-text">--%>
+                    <%--                                        <i class="fas fa-camera"></i>--%>
+                    <%--                                    </div>--%>
+                </div>
 
 
-
-                    <!-- ahmed post -->
-                    <c:forEach items="${posts}" var="post">
-                        <div class="card-body">
-                            <div class="media">
-                                <div class="media-body">
-                                    <h5><c:out value="${post.username}"></c:out></h5>
-                                    <p class="card-text text-justify">
-                                    <h3>${post.post}</h3>
-                                    </p>
-                  <c:forEach items="${post.images}" var="imageId">
-                      <img src="image?id=${imageId}" alt="post" width="500">
-                  </c:forEach>
-<%--                                    <c:if test="${post.id eq pId}" >--%>
-<%--                                        <c:out value="${upload}"></c:out>--%>
-<%--                                    </c:if>--%>
+                </form>
 
 
-                                    <div class="clearfix">
-                                        <div class="box" class="likeButton">
-                                            <c:if test="${!post.likedByMe}">
-                                                <form method="post" action="like"
-                                                      style="padding-bottom: 3px;padding-left: 3px">
-                                                    <input type="hidden" name="id" value="${post.id}"/>
-                                                    <input type="hidden" name="operation" value="like"/>
-                                                    <input type="submit" value="Like" class="likeButton">
-                                                </form>
-                                            </c:if>
 
-                                            <c:if test="${post.likedByMe}">
-                                                <form method="post" action="like">
-                                                    <input type="hidden" name="id" value="${post.id}"/>
-                                                    <input type="hidden" name="operation" value="unlike"/>
-                                                    <input type="submit" value="Unlike" class="likeButton">
-                                                </form>
-                                            </c:if>
-                                        </div>
+                <!-- ahmed post -->
+                <c:forEach items="${posts}" var="post">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <h5><c:out value="${post.username}"></c:out></h5>
+                                <p class="card-text text-justify">
+                                <h3>${post.post}</h3>
+                                </p>
+                                <c:forEach items="${post.images}" var="imageId">
+                                    <img src="image?id=${imageId}" alt="post" width="500">
+                                </c:forEach>
+                                    <%--                                    <c:if test="${post.id eq pId}" >--%>
+                                    <%--                                        <c:out value="${upload}"></c:out>--%>
+                                    <%--                                    </c:if>--%>
 
-                                        <div class="box"
-                                             style="padding-bottom: 20px;padding-top: 2px;padding-left: 6px">
-                                            likes : <c:out value="${post.likesCount}"></c:out>
-                                        </div>
+
+                                <div class="clearfix">
+                                    <div class="box" class="likeButton">
+                                        <c:if test="${!post.likedByMe}">
+                                            <form method="post" action="like"
+                                                  style="padding-bottom: 3px;padding-left: 3px">
+                                                <input type="hidden" name="id" value="${post.id}"/>
+                                                <input type="hidden" name="operation" value="like"/>
+                                                <input type="submit" value="Like" class="likeButton">
+                                            </form>
+                                        </c:if>
+
+                                        <c:if test="${post.likedByMe}">
+                                            <form method="post" action="like">
+                                                <input type="hidden" name="id" value="${post.id}"/>
+                                                <input type="hidden" name="operation" value="unlike"/>
+                                                <input type="submit" value="Unlike" class="likeButton">
+                                            </form>
+                                        </c:if>
                                     </div>
 
-
-                                        <%--                                <div class="row no-gutters mb-3">--%>
-                                        <%--                                    <div class="col-6 p-1 text-center">--%>
-
-                                        <%--                                        <img src="static/img/adventure-alps-clouds-2259810.jpg" alt="" class="img-fluid mb-2">--%>
-                                        <%--                                        <img src="static/img/aerial-view-architectural-design-buildings-2228123.jpg" alt="" class="img-fluid">--%>
-
-
-                                        <%--                                    </div>--%>
-
-                                        <%--                                    <div class="col-6 p-1 text-center">--%>
-
-                                        <%--                                        <img src="static/img/celebration-colored-smoke-dark-2297472.jpg" alt="" class="img-fluid mb-2">--%>
-                                        <%--                                        <img src="static/img/bodybuilding-exercise-fitness-2294361.jpg" alt="" class="img-fluid">--%>
+                                    <div class="box"
+                                         style="padding-bottom: 20px;padding-top: 2px;padding-left: 6px">
+                                        likes : <c:out value="${post.likesCount}"></c:out>
+                                    </div>
+                                </div>
 
 
-                                        <%--                                    </div>--%>
+                                    <%--                                <div class="row no-gutters mb-3">--%>
+                                    <%--                                    <div class="col-6 p-1 text-center">--%>
+
+                                    <%--                                        <img src="static/img/adventure-alps-clouds-2259810.jpg" alt="" class="img-fluid mb-2">--%>
+                                    <%--                                        <img src="static/img/aerial-view-architectural-design-buildings-2228123.jpg" alt="" class="img-fluid">--%>
 
 
-                                        <%--                                </div>--%>
+                                    <%--                                    </div>--%>
 
-                                    <hr>
-                                    <br>
-                                    <c:forEach items="${post.comments}" var="comment">
-                                        <div class="media mb-3">
-                                            <img src="static/img/avatar-dhg.png" alt="img" width="45px" height="45px"
-                                                 class="rounded-circle mr-2">
-                                            <div class="media-body">
-                                                <p class="card-text text-justify"><c:out
-                                                        value="${comment.username}"></c:out>: ${comment.commentText}</p>
-                                            </div>
+                                    <%--                                    <div class="col-6 p-1 text-center">--%>
+
+                                    <%--                                        <img src="static/img/celebration-colored-smoke-dark-2297472.jpg" alt="" class="img-fluid mb-2">--%>
+                                    <%--                                        <img src="static/img/bodybuilding-exercise-fitness-2294361.jpg" alt="" class="img-fluid">--%>
+
+
+                                    <%--                                    </div>--%>
+
+
+                                    <%--                                </div>--%>
+
+                                <hr>
+                                <br>
+                                <c:forEach items="${post.comments}" var="comment">
+                                    <div class="media mb-3">
+                                        <img src="static/img/avatar-dhg.png" alt="img" width="45px" height="45px"
+                                             class="rounded-circle mr-2">
+                                        <div class="media-body">
+                                            <p class="card-text text-justify"><c:out
+                                                    value="${comment.user.username}"></c:out>: ${comment.commentText}</p>
                                         </div>
-                                    </c:forEach>
-                                </div>
-
-                                <img src="static/img/avatar-dhg.png" alt="img" width="55px" height="55px"
-                                     class="rounded-circle mr-3">
-                                <small>5min</small>
+                                    </div>
+                                </c:forEach>
                             </div>
+
+                            <img src="static/img/avatar-dhg.png" alt="img" width="55px" height="55px"
+                                 class="rounded-circle mr-3">
+                            <small>5min</small>
                         </div>
-                        <div class="card-header bg-transparent">
-                            <form class="form-inline" method="post" action="comment">
+                    </div>
+                    <div class="card-header bg-transparent">
+                        <form class="form-inline" method="post" action="comment">
 
 
-                                <div class="input-group w-100">
-                                    <input type="hidden" name="id" value="${post.id}"/>
-                                    <textarea name="commentText" id="commentText" placeholder="Enter your comment"
-                                              class="form-control form-control-md"></textarea>
-                                    <input type="submit" value="Comment">
+                            <div class="input-group w-100">
+                                <input type="hidden" name="id" value="${post.id}"/>
+                                <textarea name="commentText" id="commentText" placeholder="Enter your comment"
+                                          class="form-control form-control-md"></textarea>
+                                <input type="submit" value="Comment">
 
-                                        <%--                                <div class="input-group-append">--%>
-                                        <%--                                    <div class="input-group-text">--%>
-                                        <%--                                        <i class="fas fa-camera"></i>--%>
-                                        <%--                                    </div>--%>
-                                </div>
+                                    <%--                                <div class="input-group-append">--%>
+                                    <%--                                    <div class="input-group-text">--%>
+                                    <%--                                        <i class="fas fa-camera"></i>--%>
+                                    <%--                                    </div>--%>
+                            </div>
 
 
-                            </form>
+                        </form>
 
-                        </div>
+                    </div>
 
-                    </c:forEach>
-                    <dev style=" text-align: center">
-                        <c:if test="${currentPage != 1}">
-                            <a href="wall?page=${currentPage-1}">prev.</a>
-                        </c:if>
+                </c:forEach>
+                <dev style=" text-align: center">
+                    <c:if test="${currentPage != 1}">
+                        <a href="wall?page=${currentPage-1}">prev.</a>
+                    </c:if>
 
-                        <c:if test="${(currentPage != 1) and (currentPage != lastPage)}">|</c:if>
+                    <c:if test="${(currentPage != 1) and (currentPage != lastPage)}">|</c:if>
 
-                        <c:if test="${currentPage != lastPage}">
-                            <a href="wall?page=${currentPage+1}">next</a>
-                        </c:if>
-                    </dev>
+                    <c:if test="${currentPage != lastPage}">
+                        <a href="wall?page=${currentPage+1}">next</a>
+                    </c:if>
+                </dev>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <br> <br> <br><br> <br> <br>
+
+    <!------------------------Middle column Ends---------------->
+
+
+    <!---------------------------Statrs Right Columns----------------->
+
+
+    <div class="col-12 col-lg-3">
+
+
+        <div class="right-column">
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h6 class="card-title">Sponsored</h6>
+                    <img src="static/img/right1.jpg" alt="card-img" class="card-img mb-3">
+                    <p class="card-text text-justify"><span class="h6">It might be time to visit Iceland.</span>
+                        Iceland is so chill, and everything looks cool here. Also, we heard the people are
+                        pretty nice. What are you waiting for?</p>
+                    <a href="#" class="btn btn-outline-info card-link btn-sm">Buy a ticket</a>
+
 
                 </div>
 
             </div>
 
 
-        </div>
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-body">
+
+                    <h6 class="card-title ">Likes <a href="#" class="ml-1"><small>.View All</small> </a></h6>
+                    <div class="row no-gutters d-none d-lg-flex">
+                        <div class="col-6 p-1">
+                            <img src="static/img/avatar-dhg.png" alt="img" width="80px" height="80px"
+                                 class="rounded-circle mb-4">
+                            <img src="static/img/avatar-fat.jpg" alt="img" width="80px" height="80px"
+                                 class="rounded-circle">
 
 
-        <br> <br> <br><br> <br> <br>
+                        </div>
+                        <div class="col-6 p-1 text-left">
+                            <h6>Jacob Thornton @fat</h6>
+                            <a href="#" class="btn btn-outline-info btn-sm mb-3"><i
+                                    class="fas fa-user-friends"></i>Follow </a>
 
-        <!------------------------Middle column Ends---------------->
-
-
-        <!---------------------------Statrs Right Columns----------------->
-
-
-        <div class="col-12 col-lg-3">
-
-
-            <div class="right-column">
-
-                <div class="card shadow-sm mb-4">
-                    <div class="card-body">
-                        <h6 class="card-title">Sponsored</h6>
-                        <img src="static/img/right1.jpg" alt="card-img" class="card-img mb-3">
-                        <p class="card-text text-justify"><span class="h6">It might be time to visit Iceland.</span>
-                            Iceland is so chill, and everything looks cool here. Also, we heard the people are
-                            pretty nice. What are you waiting for?</p>
-                        <a href="#" class="btn btn-outline-info card-link btn-sm">Buy a ticket</a>
-
-
-                    </div>
-
-                </div>
-
-
-                <div class="card shadow-sm mb-4">
-
-                    <div class="card-body">
-
-                        <h6 class="card-title ">Likes <a href="#" class="ml-1"><small>.View All</small> </a></h6>
-                        <div class="row no-gutters d-none d-lg-flex">
-                            <div class="col-6 p-1">
-                                <img src="static/img/avatar-dhg.png" alt="img" width="80px" height="80px"
-                                     class="rounded-circle mb-4">
-                                <img src="static/img/avatar-fat.jpg" alt="img" width="80px" height="80px"
-                                     class="rounded-circle">
-
-
-                            </div>
-                            <div class="col-6 p-1 text-left">
-                                <h6>Jacob Thornton @fat</h6>
-                                <a href="#" class="btn btn-outline-info btn-sm mb-3"><i
-                                        class="fas fa-user-friends"></i>Follow </a>
-
-                                <h6>Mark otto</h6>
-                                <a href="#" class="btn btn-outline-info  btn-sm"><i class="fas fa-user-friends"></i>Follow
-                                </a>
-
-                            </div>
+                            <h6>Mark otto</h6>
+                            <a href="#" class="btn btn-outline-info  btn-sm"><i class="fas fa-user-friends"></i>Follow
+                            </a>
 
                         </div>
 
                     </div>
 
-                    <div class="card-footer">
-
-                        <p class="lead" style="font-size:18px;">Dave really likes these nerds, no one knows why
-                            though.</p>
-                    </div>
-
-
                 </div>
 
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <p>&copy; 2018 Bootstrap
+                <div class="card-footer">
 
-
-                            <a href="#">About</a>
-                            <a href="#">Help</a>
-                            <a href="#">Terms</a>
-                            <a href="#">Privacy</a>
-                            <a href="#">Cookies</a>
-                            <a href="#">Ads </a>
-                            <a href="#">Info</a>
-                            <a href="#">Brand</a>
-                            <a href="#">Blog</a>
-                            <a href="#">Status</a>
-                            <a href="#">Apps</a>
-                            <a href="#">Jobs</a>
-                            <a href="#">Advertise</a>
-
-
-                        </p>
-                    </div>
-
+                    <p class="lead" style="font-size:18px;">Dave really likes these nerds, no one knows why
+                        though.</p>
                 </div>
 
+
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <p>&copy; 2018 Bootstrap
+
+
+                        <a href="#">About</a>
+                        <a href="#">Help</a>
+                        <a href="#">Terms</a>
+                        <a href="#">Privacy</a>
+                        <a href="#">Cookies</a>
+                        <a href="#">Ads </a>
+                        <a href="#">Info</a>
+                        <a href="#">Brand</a>
+                        <a href="#">Blog</a>
+                        <a href="#">Status</a>
+                        <a href="#">Apps</a>
+                        <a href="#">Jobs</a>
+                        <a href="#">Advertise</a>
+
+
+                    </p>
+                </div>
 
             </div>
 
@@ -691,18 +688,21 @@
     </div>
 
 
-    <!------------------------Light BOx OPtions------------->
-    <script>
-        lightbox.option({})
-    </script>
+</div>
 
 
-    <!------------------------Light BOx OPtions------------->
+<!------------------------Light BOx OPtions------------->
+<script>
+    lightbox.option({})
+</script>
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!------------------------Light BOx OPtions------------->
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </div>
 </body>
 </html>

@@ -1,17 +1,20 @@
 package com.social.media.controllers;
 
 import com.social.media.model.Comment;
+import com.social.media.model.Post;
 import com.social.media.model.User;
 import com.social.media.service.CommentService;
-import com.social.media.service.WallService;
+
 import com.social.media.util.ConnectionHelper;
+import com.social.media.util.EntityManagerFactoryUtility;
+import jakarta.persistence.EntityManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
+
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,36 +30,34 @@ public class CommentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         CommentService commentService = new CommentService();
-        Connection connection = null;
+        EntityManager em = null;
         User user = (User) req.getSession().getAttribute("currentUser");
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date();
-        String date1 = formatter.format(date);
         String postId = req.getParameter("id");
+
         try {
-            connection = ConnectionHelper.openConnection();
+            em = EntityManagerFactoryUtility.createEntityManger();
+            em.getTransaction().begin();
             Comment comment = new Comment();
+            Post post = new Post();
+            comment.setPost(post);
             comment.setCommentText(req.getParameter("commentText"));
             comment.setUser(user);
-            comment.setPostId(Integer.parseInt(postId));
-            comment.setCreatedDate(date1);
-            comment.setUpdatedDate(date1);
+            comment.getPost().setId(Integer.parseInt(postId));
+            comment.setCreatedDate(new Date());
+            comment.setUpdatedDate(new Date());
 
             if (comment.getCommentText() != null && comment.getCommentText().length() > 0) {
-                commentService.addComment(connection, comment);
+                commentService.addComment(em, comment);
+                em.getTransaction().commit();
             } else {
-                req.setAttribute("postId", postId );
+                req.setAttribute("postId", postId);
                 req.setAttribute("commentAdded", "please enter your comment");
             }
-            wallServlet.doGet(req,resp);
-        } catch (SQLException e) {
+            wallServlet.doGet(req, resp);
+        } catch (IOException e) {
             throw new RuntimeException(e);
-        }finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+        } finally {
+            em.close();
         }
     }
 }

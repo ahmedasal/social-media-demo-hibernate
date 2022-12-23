@@ -7,6 +7,8 @@ import com.social.media.model.User;
 import com.social.media.service.PostService;
 import com.social.media.service.WallService;
 import com.social.media.util.ConnectionHelper;
+import com.social.media.util.EntityManagerFactoryUtility;
+import jakarta.persistence.EntityManager;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Set;
 
 public class WallServlet extends HttpServlet {
@@ -27,27 +30,31 @@ public class WallServlet extends HttpServlet {
         int page = 1;
         int noOfPages = 0;
         int noOfRows = 5;
-        Connection connection = null;
+        EntityManager em = null;
         User user = (User) req.getSession().getAttribute("currentUser");
         if (req.getParameter("page") != null)
             page = Integer.parseInt(req.getParameter("page"));
         try {
-            connection = ConnectionHelper.openConnection();
-            Set<Post> posts = wallService.getWallPosts(connection, user.getId(), (page - 1) * noOfRows, noOfRows);
+            em = EntityManagerFactoryUtility.createEntityManger();
+            em.getTransaction().begin();
+            List<Post> posts = wallService.getWallPosts(em, user.getId(), (page - 1) * noOfRows, noOfRows);
+            em.getTransaction().commit();
             req.setAttribute("posts", posts);
             req.setAttribute("currentPage", page);
-            int count = wallService.countWallPosts(connection, user.getId(), (page - 1) * noOfRows, noOfRows);
-            if (count / noOfRows == 0) {
-                noOfPages = count / noOfRows;
-            } else {
-                noOfPages = count / noOfRows + 1;
-            }
-            req.setAttribute("lastPage", noOfPages);
+            // TODO int count = wallService.countWallPosts(connection, user.getId(), (page - 1) * noOfRows, noOfRows);
+//            if (count / noOfRows == 0) {
+//                noOfPages = count / noOfRows;
+//            } else {
+//                noOfPages = count / noOfRows + 1;
+//            }
+//            req.setAttribute("lastPage", noOfPages);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/views/home.jsp");
             requestDispatcher.forward(req, resp);
 
-        } catch (SQLException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
+        } finally {
+            em.close();
         }
 
     }
@@ -55,37 +62,28 @@ public class WallServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        Connection connection = null;
+        EntityManager em = null;
         PostService postService = new PostService();
-
         try {
-            connection = ConnectionHelper.openConnection();
+            em = EntityManagerFactoryUtility.createEntityManger();
+            em.getTransaction().begin();
             PostRequestReader.PostWithPhotos postWithPhotos = PostRequestReader.readPostRequest(req, resp);
             if (postWithPhotos.post != null && postWithPhotos.post.getPost().length() > 0) {
-                postService.writePost(connection, postWithPhotos.post);
-
-//                req.setAttribute("postAdded", "post is added successfully");
-
-                for(Image image : postWithPhotos.images) {
-                    image.setPostId(postWithPhotos.post.getId());
-                    postService.saveImage(connection, image);
+                postService.writePost(em, postWithPhotos.post);
+                req.setAttribute("postAdded", "post is added successfully");
+                for (Image image : postWithPhotos.images) {
+                    image.getPost().setId(postWithPhotos.post.getId());
+                    postService.saveImage(em, image);
                 }
-
+                em.getTransaction().commit();
             } else {
                 req.setAttribute("postAdded", "Please enter your post");
             }
-
             doGet(req, resp);
-
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            em.close();
         }
 
     }

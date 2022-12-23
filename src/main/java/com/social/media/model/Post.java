@@ -1,19 +1,15 @@
 package com.social.media.model;
 
 
-
 import jakarta.persistence.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Entity
-@Table( name= "posts")
+@Table(name = "posts")
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,8 +24,9 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "page_id")
     private Page page;
-    @ManyToMany(mappedBy = "posts")
-    Set<Like> likes = new HashSet<>();
+    //TODO lazy load
+
+
     public Page getPage() {
         return page;
     }
@@ -38,14 +35,14 @@ public class Post {
         this.page = page;
     }
 
+    // TODO Hibernate annotation
+    @OneToMany(mappedBy = "post")
+    List<Comment> comments;
     @Transient
     String username;
     @Transient
     boolean likedByMe;
 
-    // TODO Hibernate annotation
-    @OneToMany(mappedBy = "post")
-    List<Comment> comments;
     @OneToMany(mappedBy = "post")
     List<Image> images;
 
@@ -53,12 +50,30 @@ public class Post {
 
     }
 
+    public void addImage(Image image) {
+        this.images.add(image);
+        image.setPost(this);
+    }
+
+    public void removeImage(Image image) {
+        this.images.remove(image);
+    }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
+        comment.setPost(this);
+    }
+
+    public void removeComment(Comment comment) {
+        this.comments.remove(comment);
+    }
+
+
     public Post(String post, Date postDate, int postOwner) {
         this.post = post;
         this.postDate = postDate;
         this.postOwner = postOwner;
     }
-
 
     public static Post fromDatabase(ResultSet resultSet) throws SQLException {
         Post post = new Post();
@@ -147,7 +162,6 @@ public class Post {
     }
 
 
-
     public List<Image> getImages() {
         return images;
     }
@@ -164,10 +178,8 @@ public class Post {
                 ", postDate=" + postDate +
                 ", postOwner=" + postOwner +
                 ", likesCount=" + likesCount +
-                ", username='" + username + '\'' +
                 ", commentsCount=" + commentsCount +
-                ", likedByMe=" + likedByMe +
-                ", comments=" + comments +
+                ", page=" + page +
                 '}';
     }
 }
