@@ -1,74 +1,46 @@
 package com.social.media.service;
 
 import com.social.media.model.Like;
+import com.social.media.model.Post;
+import com.social.media.model.User;
+import jakarta.persistence.EntityManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class LikeService {
     // add like
-//    public Like likePost(Connection connection, Like like) throws SQLException {
-//        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM likes where user =? and  post_id=?");
-//        preparedStatement.setInt(1, like.getUserId());
-//        preparedStatement.setInt(2, like.getPostId());
-//        ResultSet rs = preparedStatement.executeQuery();
-//        if (rs.next() == false) {
-//            preparedStatement = connection.prepareStatement("insert into likes(user, create_date,post_id) values (?,?,?)");
-//            preparedStatement.setInt(1, like.getUserId());
-//            preparedStatement.setString(2, like.getCreateDate());
-//            preparedStatement.setInt(3, like.getPostId());
-//            preparedStatement.execute();
-//
-//            //TODO increase for like count by one
-//            preparedStatement = connection.prepareStatement("update posts set likes_count = likes_count+1 where  id = ?");
-//            preparedStatement.setInt(1, like.getPostId());
-//            preparedStatement.execute();
-//        }
-//
-//        preparedStatement.close();
-//        return like;
-//    }
-
-    public int getLikeId(Connection connection, int userId, int postId) throws SQLException {
-        int likeId = 0;
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT id FROM likes where user =? and  post_id=?");
-        preparedStatement.setInt(1, userId);
-        preparedStatement.setInt(2, postId);
-        ResultSet rs = preparedStatement.executeQuery();
-
-        if (rs.next()) {
-            likeId = rs.getInt("id");
+    public Like likePost(EntityManager em, Like like) throws SQLException {
+        if (getLikeId(em, like.getUser().getId(), like.getPost().getId()) == 0) {
+            em.persist(like);
+            //TODO increase for like count by one
+            Post post = em.find(Post.class, like.getPost().getId());
+            post.setLikesCount(post.getLikesCount() + 1);
         }
-
-
-        return likeId;
+        return like;
     }
 
 
-    public int deleteLike(Connection connection, int likeId) throws SQLException {
-        int postId =0;
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT post_id from likes where id = ?");
-        preparedStatement.setInt(1, likeId);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        if(resultSet.next()) {
-            postId = resultSet.getInt("post_id");
-        }
-        preparedStatement = connection.prepareStatement("delete from likes where id =? ;");
-        preparedStatement.setInt(1, likeId);
-        int count = preparedStatement.executeUpdate();
-        System.out.println(postId);
+    public int getLikeId(EntityManager em, int userId, int postId) {
+        List<Integer> likes = em.createQuery("select l.id from Like l where l.post.id = :postId and l.user.id = :userId").setParameter("postId", postId).setParameter("userId", userId).getResultList();
+        if (likes.size() != 0) {
+            int likeId = likes.get(0);
+            return likeId;
+        } else
+            return 0;
+    }
+
+
+    public void deleteLike(EntityManager em, int likeId) throws SQLException {
+        Like like = em.find(Like.class, likeId);
+        em.remove(like);
         //TODO decrease likes count by one
-        preparedStatement = connection.prepareStatement("update posts set likes_count = likes_count-1 where  id = ?");
-        preparedStatement.setInt(1, postId);
-        preparedStatement.execute();
-
-        preparedStatement.close();
-
-        return count;
+        Post post = em.find(Post.class, like.getPost().getId());
+        post.setLikesCount(post.getLikesCount() - 1);
     }
-
 
 
 }

@@ -12,9 +12,12 @@
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/socialMediaApp" />
             <property name="javax.persistence.jdbc.user" value="root" />
             <property name="javax.persistence.jdbc.password" value="test123" />
-            <property name = "hibernate.show_sql" value = "true" />
-            <property name="hibernate.format_sql" value="true"></property>
-            <property name="hibernate.use_sql_comments" value="true"/>
+<!--            <property name = "hibernate.show_sql" value = "true" />-->
+<!--            <property name="hibernate.format_sql" value="true"></property>-->
+<!--            <property name="hibernate.use_sql_comments" value="true"/>-->
+<!--            <property name="hibernate.connection.pool_size" value="15"/>-->
+<!--            <property name="hibernate.dbcp.ps.maxActive" value="15"/>-->
+            <property name="hibernate.connection.provider_class" value="com.social.media.hibernate.DBCPConnectionProvider"/>
         </properties>
     </persistence-unit>
 

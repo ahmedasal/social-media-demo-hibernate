@@ -12,7 +12,7 @@ import java.util.List;
 
 public class CommentController {
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws Exception {
         EntityManager em = EntityManagerFactoryUtility.createEntityManger();
         WallService wallService = new WallService();
         List posts = wallService.getWallPosts(em,45,5,10);

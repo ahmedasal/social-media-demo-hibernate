@@ -327,26 +327,26 @@
                         <img src="static/img/avatar-dhg.png" alt="img" width="120px" height="120px"
                              class="rounded-circle mt-n5">
                         <h5 class="card-title"><c:out value="${page.pageName}"></c:out></h5>
-                        <%--&lt;%&ndash;                        <p class="card-text text-justify mb-2">I wish i was a little bit taller, wish i was a baller,&ndash;%&gt;--%>
-                        <%--&lt;%&ndash;                            wish i had a girl… also.</p>&ndash;%&gt;--%>
-                        <%--                        <div class="box" class="likeButton">--%>
-                        <%--                            <c:if test="${!page.likedByMe}">--%>
-                        <form method="post" action="pagelike"
-                              style="padding-bottom: 3px;padding-left: 3px">
-                            <input type="hidden" name="id" value="${page.id}"/>
-                            <input type="hidden" name="operation" value="like"/>
-                            <input type="submit" value="Like" class="likeButton">
-                        </form>
-                        <%--                            </c:if>--%>
+<%--&lt;%&ndash;                        <p class="card-text text-justify mb-2">I wish i was a little bit taller, wish i was a baller,&ndash;%&gt;--%>
+<%--&lt;%&ndash;                            wish i had a girl… also.</p>&ndash;%&gt;--%>
+<%--                        <div class="box" class="likeButton">--%>
+<%--                            <c:if test="${!page.likedByMe}">--%>
+                                <form method="post" action="pagelike"
+                                      style="padding-bottom: 3px;padding-left: 3px">
+                                    <input type="hidden" name="id" value="${page.id}"/>
+                                    <input type="hidden" name="operation" value="like"/>
+                                    <input type="submit" value="Like" class="likeButton">
+                                </form>
+<%--                            </c:if>--%>
 
-                        <%--                            <c:if test="${page.likedByMe}">--%>
-                        <form method="post" action="pagelike">
-                            <input type="hidden" name="id" value="${page.id}"/>
-                            <input type="hidden" name="operation" value="unlike"/>
-                            <input type="submit" value="Unlike" class="likeButton">
-                        </form>
-                        <%--                            </c:if>--%>
-                        <%--                        </div>--%>
+<%--                            <c:if test="${page.likedByMe}">--%>
+                                <form method="post" action="pagelike">
+                                    <input type="hidden" name="id" value="${page.id}"/>
+                                    <input type="hidden" name="operation" value="unlike"/>
+                                    <input type="submit" value="Unlike" class="likeButton">
+                                </form>
+<%--                            </c:if>--%>
+<%--                        </div>--%>
                         <ul class="list-unstyled nav justify-content-center">
                             <a href="#" class="text-dark text-decoration-none">
                                 <li class="nav-item">Friends <br> <strong>12M</strong></li>

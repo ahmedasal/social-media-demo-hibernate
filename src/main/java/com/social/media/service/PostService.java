@@ -10,8 +10,8 @@ public class PostService {
     
 
     public Boolean likedByMe(EntityManager em, int userId, int postId) {
-        List resultset = em.createQuery("select count(id) from Like l where l.user.id= :userId and l.post.id = :postId").setParameter("userId",userId).setParameter("postId",postId).getResultList();
-        return (Integer)resultset.get(0) > 0;
+        List resultset = em.createQuery("select id from Like l where l.user.id= :userId and l.post.id = :postId").setParameter("userId",userId).setParameter("postId",postId).getResultList();
+        return resultset.size() > 0;
     }
 
     public Post writePost(EntityManager em, Post post) {

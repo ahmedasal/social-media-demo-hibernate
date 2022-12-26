@@ -41,7 +41,9 @@ public class LoginServlet extends HttpServlet {
             throw new RuntimeException(e);
         } finally {
             try {
-                em.close();
+                if(em != null) {
+                    em.close();
+                }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

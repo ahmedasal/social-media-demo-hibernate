@@ -1,6 +1,9 @@
 package com.social.media.controllers;
 
 import com.social.media.model.User;
+import com.social.media.service.UserService;
+import com.social.media.util.EntityManagerFactoryUtility;
+import jakarta.persistence.EntityManager;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +28,9 @@ public class SecurityFilter implements Filter {
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
+        UserService userService = new UserService();
 
+        EntityManager em = null;
         String path = request.getServletPath();
         System.out.println(request.getServletPath());
 
@@ -39,9 +44,17 @@ public class SecurityFilter implements Filter {
         if (user != null) {
             filterChain.doFilter(request, response);
         } else {
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            System.out.println(response.getStatus());
-            response.sendRedirect("/social/login");
+//            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+//            System.out.println(response.getStatus());
+//            response.sendRedirect("/social/login");
+            try {
+                em = EntityManagerFactoryUtility.createEntityManger();
+                user = userService.getUserByUsername(em, "ahmedasal1");
+                request.getSession().setAttribute("currentUser", user);
+            }finally {
+                em.close();
+            }
+
 
         }
 

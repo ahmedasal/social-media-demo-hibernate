@@ -26,6 +26,20 @@ public class Post {
     private Page page;
     //TODO lazy load
 
+    // TODO Hibernate annotation
+    @OneToMany(mappedBy = "post") // , fetch = FetchType.EAGER)
+    List<Comment> comments;
+    @Transient
+    String username;
+    @Transient
+    boolean likedByMe;
+
+    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
+    List<Image> images;
+
+    public Post() {
+
+    }
 
     public Page getPage() {
         return page;
@@ -35,20 +49,6 @@ public class Post {
         this.page = page;
     }
 
-    // TODO Hibernate annotation
-    @OneToMany(mappedBy = "post")
-    List<Comment> comments;
-    @Transient
-    String username;
-    @Transient
-    boolean likedByMe;
-
-    @OneToMany(mappedBy = "post")
-    List<Image> images;
-
-    public Post() {
-
-    }
 
     public void addImage(Image image) {
         this.images.add(image);

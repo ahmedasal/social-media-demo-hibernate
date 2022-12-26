@@ -474,8 +474,8 @@
                                 <p class="card-text text-justify">
                                 <h3>${post.post}</h3>
                                 </p>
-                                <c:forEach items="${post.images}" var="imageId">
-                                    <img src="image?id=${imageId}" alt="post" width="500">
+                                <c:forEach items="${post.images}" var="image">
+                                    <img src="image?id=${image.id}" alt="post" width="500">
                                 </c:forEach>
                                     <%--                                    <c:if test="${post.id eq pId}" >--%>
                                     <%--                                        <c:out value="${upload}"></c:out>--%>
